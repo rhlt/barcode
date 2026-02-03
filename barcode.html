@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content= "width=device-width, initial-scale=1.0">
+        <script src="JsBarcode.all.min.js"></script>
+        <style>
+            svg {
+                display: block;
+                padding-bottom: 1em;
+            }
+        </style>
+    </head>
+    <body>
+        <textarea id="input" rows="4" cols="40" placeholder="Enter codes here (one per line)"></textarea>
+        <div id="output"></div>
+    </body>
+    <script>
+        (() => {
+            const generateBarcodes = data => {
+                const barcodes = data.replace(/\n(?=\n)/g, "").trim().split("\n");
+                if (barcodes.length == 1 && barcodes[0] === "") {
+                    barcodes.pop();
+                }
+                localStorage.setItem('barcodes', data);
+                const output = document.getElementById('output');
+                barcodes.forEach((code, n) => {
+                    code = code.trim();
+                    let svg = document.getElementById("barcode" + n);
+                    if (!svg) {
+                        svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                        svg.id = "barcode" + n;
+                        output.appendChild(svg);
+                    }
+                    JsBarcode(svg, code);
+                });
+                let n = barcodes.length;
+                let unusedSvg;
+                while (unusedSvg = document.getElementById("barcode" + n)) {
+                    unusedSvg.remove();
+                    n++;
+                }
+            };
+            
+            const input = document.getElementById('input');
+            input.addEventListener('input', event => generateBarcodes(event.target.value));
+            input.value = localStorage.getItem('barcodes');
+
+            if (input.value != "") {
+                generateBarcodes(input.value);
+            }
+        })();
+    </script>
+</html>
