@@ -5,4 +5,4 @@ Simple Javascript in-browser generator based on [lindell/JsBarcode](https://gith
 Because sometimes you just want to type a code or two and be done with it.
 No unnecessary features.
 
-**[Find it here](https://raw.githubusercontent.com/rhlt/barcode/refs/heads/master/barcode.html)**
+**[Find it here](https://r93.nl/barcode)**
